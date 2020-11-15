@@ -192,7 +192,7 @@ open class RTMPStream: NetStream {
     open internal(set) var info = RTMPStreamInfo()
     open private(set) var objectEncoding: RTMPObjectEncoding = RTMPConnection.defaultObjectEncoding
     /// The number of frames per second being displayed.
-    @objc open private(set) dynamic var currentFPS: UInt16 = 0
+    @objc open private(set) dynamic var currentFPS: UInt32 = 0
     open var soundTransform: SoundTransform {
         get { mixer.audioIO.soundTransform }
         set { mixer.audioIO.soundTransform = newValue }
@@ -311,7 +311,7 @@ open class RTMPStream: NetStream {
     var videoTimestamp: Double = 0.0
     private let muxer = RTMPMuxer()
     private var sampler: MP4Sampler?
-    private var frameCount: UInt16 = 0
+    private var frameCount: UInt32 = 0
     private var dispatcher: IEventDispatcher!
     private var audioWasSent = false
     private var videoWasSent = false
