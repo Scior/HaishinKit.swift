@@ -1,7 +1,13 @@
-import Logboard
-
 #if canImport(SwiftPMSupport)
 import SwiftPMSupport
 #endif
 
-let logger = Logboard.with(HaishinKitIdentifier)
+final class LoggerMock {
+    func trace(_ value: Any) {}
+    func debug(_ value: Any) {}
+    func info(_ value: Any) {}
+    func warn(_ value: Any) {}
+    func error(_ value: Any) {}
+}
+
+let logger = LoggerMock()

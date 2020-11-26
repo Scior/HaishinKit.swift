@@ -19,11 +19,7 @@ open class NetSocket: NSObject {
             return value < 0 ? value + capacity : value
         }
         private var data: Data
-        private var capacity: Int = 0 {
-            didSet {
-                logger.info("extends a buffer size from ", oldValue, " to ", capacity)
-            }
-        }
+        private var capacity: Int = 0
         private var top: Int = 0
         private var bottom: Int = 0
         private var locked: UnsafeMutablePointer<UInt32>?

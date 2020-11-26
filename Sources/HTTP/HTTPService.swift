@@ -189,9 +189,6 @@ open class HTTPService: NetService {
             return
         }
         client.inputBuffer.removeAll()
-        if logger.isEnabledFor(level: .trace) {
-            logger.trace("\(request): \(self)")
-        }
         switch request.method {
         case "GET":
             get(request, client: client)
