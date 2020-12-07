@@ -246,14 +246,18 @@ final class VideoIOComponent: IOComponent {
     #endif
 
     private var _output: AVCaptureVideoDataOutput?
-    var output: AVCaptureVideoDataOutput! {
+    var output: AVCaptureVideoDataOutput {
         get {
-            if _output == nil {
-                _output = AVCaptureVideoDataOutput()
-                _output?.alwaysDiscardsLateVideoFrames = true
-                _output?.videoSettings = videoSettings as? [String: Any]
+            if let output = _output {
+                return output
+            } else {
+                let output = AVCaptureVideoDataOutput()
+                output.alwaysDiscardsLateVideoFrames = true
+                output.videoSettings = videoSettings as? [String: Any]
+                _output = output
+
+                return output
             }
-            return _output!
         }
         set {
             if _output == newValue {
