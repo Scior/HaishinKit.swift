@@ -248,22 +248,27 @@ final class VideoIOComponent: IOComponent {
     private var _output: AVCaptureVideoDataOutput?
     var output: AVCaptureVideoDataOutput! {
         get {
-            if _output == nil {
-                _output = AVCaptureVideoDataOutput()
-                _output?.alwaysDiscardsLateVideoFrames = true
-                _output?.videoSettings = videoSettings as? [String: Any]
+            return lockQueue.sync {
+                if _output == nil {
+                    _output = AVCaptureVideoDataOutput()
+                    _output?.alwaysDiscardsLateVideoFrames = true
+                    _output?.videoSettings = videoSettings as? [String: Any]
+                }
+
+                return _output!
             }
-            return _output!
         }
         set {
-            if _output == newValue {
-                return
+            lockQueue.sync {
+                if _output == newValue {
+                    return
+                }
+                if let output: AVCaptureVideoDataOutput = _output {
+                    output.setSampleBufferDelegate(nil, queue: nil)
+                    mixer?.session.removeOutput(output)
+                }
+                _output = newValue
             }
-            if let output: AVCaptureVideoDataOutput = _output {
-                output.setSampleBufferDelegate(nil, queue: nil)
-                mixer?.session.removeOutput(output)
-            }
-            _output = newValue
         }
     }
 
