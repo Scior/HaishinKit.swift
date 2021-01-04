@@ -330,6 +330,10 @@ final class VideoIOComponent: IOComponent {
         #endif
 
         input = try AVCaptureDeviceInput(device: camera)
+        guard mixer.session.canAddOutput(output) else {
+            // NSErrorしか受けれないのでとりま
+            throw NSError()
+        }
         mixer.session.addOutput(output)
 
         for connection in output.connections {
